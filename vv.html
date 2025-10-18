@@ -1,0 +1,270 @@
+// ...existing code...
+    <style>
+      /* RTL adjustments + general styles */
+      html, body { font-family: Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+      /* smooth scroll and nice transitions */
+      html { scroll-behavior: smooth; }
+      .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+      /* small helper for card hover */
+      .card-hover:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+      /* simple marquee for partners (auto scroll) */
+      @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+      .partners-scroll { animation: scroll-left 20s linear infinite; }
+      /* RTL-friendly icon alignment */
+      .icon-left { margin-left: .75rem; }
+      /* small responsive map height */
+      .map-h { height: 280px; }
+      @media(min-width:1024px){ .map-h{ height: 380px; } }
+
+      /* Simple fade-in & slide animations used by JS */
+      .reveal { opacity: 0; transform: translateY(18px); transition: all 700ms cubic-bezier(.2,.9,.2,1); }
+      .reveal.show { opacity: 1; transform: translateY(0); }
+
+      /* ====== Services card improvements ====== */
+      .service-card {
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        height: 100%;
+        transition: transform .25s ease, box-shadow .25s ease;
+      }
+      .service-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+        flex-shrink: 0;
+      }
+      @media(min-width:1024px){ .service-card img { height: 180px; } }
+
+      .service-title { font-weight: 700; color: #111827; }
+      .service-desc { color: #4B5563; font-size: .95rem; }
+
+      .service-actions { margin-top: auto; display:flex; gap:0.5rem; align-items:center; }
+
+      .btn {
+        display:inline-flex; align-items:center; gap:0.5rem;
+        padding: .5rem .9rem; border-radius: .6rem; font-weight:600; font-size:.92rem;
+        transition: transform .12s ease, box-shadow .12s ease;
+      }
+      .btn:active{ transform: translateY(1px); }
+
+      /* Call button - brand outline */
+      .btn-call {
+        background: transparent;
+        color: #C62828;
+        border: 1px solid rgba(198,40,40,0.15);
+        box-shadow: 0 1px 0 rgba(198,40,40,0.04);
+      }
+      .btn-call:hover {
+        background: #C62828; color: #fff; box-shadow: 0 8px 24px rgba(198,40,40,0.12);
+      }
+
+      /* WhatsApp button - green */
+      .btn-ws {
+        background: #25D366; color: #fff; border: 1px solid rgba(20,160,80,0.08);
+        box-shadow: 0 4px 14px rgba(37,211,102,0.12);
+      }
+      .btn-ws:hover {
+        filter: brightness(.96); box-shadow: 0 10px 30px rgba(37,211,102,0.14);
+      }
+
+      /* make card image area visually separated on small screens */
+      .img-wrap { overflow:hidden; border-radius: .75rem; }
+    </style>
+// ...existing code...
+      <!-- Services -->
+      <section id="services" class="max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-2xl font-bold mb-6 reveal">خدماتنا</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- service card template: repeat for each service (each card now has an image, consistent padding and buttons) -->
+
+          <!-- 1 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop" alt="أنظمة إنذار الحريق" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة أنظمة الإنذار المبكر عن الحريق</h3>
+              <p class="service-desc mt-2">تصميم وتركيب أنظمة إنذار متطورة مع دعم صيانة دوري لاكتشاف الحرائق مبكراً.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1526403224749-6e7d7f3f6c37?q=80&w=1200&auto=format&fit=crop" alt="أنظمة إطفاء" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة أنظمة إطفاء الحريق</h3>
+              <p class="service-desc mt-2">أنظمة إطفاء متكاملة (رش، أنابيب، شبكات) مع خطة صيانة منتظمة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581091870625-8f3b7f1d3b3a?q=80&w=1200&auto=format&fit=crop" alt="طفايات حريق" />
+            </div>
+            <div>
+              <h3 class="service-title">صيانة وتعبئة طفايات الحريق</h3>
+              <p class="service-desc mt-2">خدمات تعبئة وفحص طفايات الحريق وفق المواصفات واللوائح المحلية.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1509033460813-8d6f8f0c3ef2?q=80&w=1200&auto=format&fit=crop" alt="نظام إطفاء المطابخ" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء المطابخ</h3>
+              <p class="service-desc mt-2">حلول خاصة لمطابخ المطاعم والمطابخ الصناعية مع أنظمة حساسة وفعّالة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 5 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1593642634367-d91a135587b5?q=80&w=1200&auto=format&fit=crop" alt="CO2 systems" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء CO₂</h3>
+              <p class="service-desc mt-2">تصميم وتركيب أنظمة CO₂ للمخازن والغرف الكهربائية وفق المواصفات.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 6 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581092580495-0f1f6a3f0a6c?q=80&w=1200&auto=format&fit=crop" alt="FM-200" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء FM-200</h3>
+              <p class="service-desc mt-2">أنظمة FM-200 المتقدمة للأماكن الحرجة مع حماية سريعة وغير مدمرة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- more services: مضخات، فوم، سلالم، عقود صيانة، اعتماد مخططات، شهادة سلامة، تقرير فني -->
+          <!-- 7 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1200&auto=format&fit=crop" alt="مضخات الحريق" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة مضخات الحريق</h3>
+              <p class="service-desc mt-2">مضخات ذات أداء عالي مع نظم تحكم ومراقبة وكفاءة تشغيلية.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 8 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop" alt="أنظمة فوم" />
+            </div>
+            <div>
+              <h3 class="service-title">أنظمة الإطفاء بالفوم</h3>
+              <p class="service-desc mt-2">حلول فوم مخصّصة للمخازن ومحطات الوقود مع مواد إطفاء معتمدة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 9 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1541869153-0b4ff99a8ef9?q=80&w=1200&auto=format&fit=crop" alt="سلالم الطوارئ" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب سلالم الطوارئ</h3>
+              <p class="service-desc mt-2">سلالم ومخارج طوارئ مطابقة للوائح وسهلة الاستخدام في حالات الإخلاء.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 10 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1200&auto=format&fit=crop" alt="عقود صيانة" />
+            </div>
+            <div>
+              <h3 class="service-title">عقود صيانة سنوية لأنظمة السلامة</h3>
+              <p class="service-desc mt-2">برامج صيانة دورية مفصّلة مع تقارير وفحوصات معتمدة طوال السنة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 11 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581094288333-1b6b1d4a0d9a?q=80&w=1200&auto=format&fit=crop" alt="اعتماد مخططات" />
+            </div>
+            <div>
+              <h3 class="service-title">اعتماد مخططات السلامة</h3>
+              <p class="service-desc mt-2">مراجعة واعتماد مخططات السلامة وفق المعايير واشتراطات الدفاع المدني.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 12 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop" alt="شهادة سلامة" />
+            </div>
+            <div>
+              <h3 class="service-title">استخراج شهادة سلامة & تقرير فني هندسي</h3>
+              <p class="service-desc mt-2">إجراءات استخراج شهادات السلامة وتقديم تقارير هندسية للأنشطة المختلفة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+// ...existing code...

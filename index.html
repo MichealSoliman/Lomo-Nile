@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لومو نايل للأمن والسلامة - الرياض، حي الازدهار</title>
+    <meta name="description" content="شركة لومو نايل للأمن والسلامة - توريد وتركيب وصيانة أنظمة مكافحة الحريق والأمن والسلامة في الرياض">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        /* تأثيرات التمرير */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* تأثيرات Hover للبطاقات */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تأثير Parallax */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* تأثيرات الشركاء */
+        .partner-logo {
+            transition: transform 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- الهيدر -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- شعار الشركة -->
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg ml-3">
+                        LN
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">لومو نايل</h1>
+                        <p class="text-sm text-gray-600">للأمن والسلامة</p>
+                    </div>
+                </div>
+                
+                <!-- روابط التنقل -->
+                <nav class="hidden md:flex space-x-8 space-x-reverse">
+                    <a href="#home" class="text-gray-700 hover:text-red-600 font-medium transition-colors">الرئيسية</a>
+                    <a href="#about" class="text-gray-700 hover:text-red-600 font-medium transition-colors">عن الشركة</a>
+                    <a href="#services" class="text-gray-700 hover:text-red-600 font-medium transition-colors">الخدمات</a>
+                    <a href="#partners" class="text-gray-700 hover:text-red-600 font-medium transition-colors">شركاء النجاح</a>
+                    <a href="#contact" class="text-gray-700 hover:text-red-600 font-medium transition-colors">تواصل معنا</a>
+                </nav>
+                
+                <!-- زر الاتصال -->
+                <div class="flex items-center">
+                    <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors hidden md:block">
+                        <i class="fas fa-phone ml-1"></i> 0548041579
+                    </a>
+                    
+                    <!-- زر القائمة المتنقلة -->
+                    <button id="mobile-menu-button" class="md:hidden text-gray-700 ml-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- القائمة المتنقلة -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="text-gray-700 hover:text-red-600 font-medium transition-colors">الرئيسية</a>
+                    <a href="#about" class="text-gray-700 hover:text-red-600 font-medium transition-colors">عن الشركة</a>
+                    <a href="#services" class="text-gray-700 hover:text-red-600 font-medium transition-colors">الخدمات</a>
+                    <a href="#partners" class="text-gray-700 hover:text-red-600 font-medium transition-colors">شركاء النجاح</a>
+                    <a href="#contact" class="text-gray-700 hover:text-red-600 font-medium transition-colors">تواصل معنا</a>
+                    <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-center">
+                        <i class="fas fa-phone ml-1"></i> 0548041579
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم الهيرو -->
+    <section id="home" class="relative bg-gradient-to-r from-red-700 to-red-800 text-white py-20 md:py-32">
+        <div class="absolute inset-0 bg-black opacity-40"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 fade-in">لومو نايل للأمن والسلامة</h1>
+                <p class="text-xl mb-8 fade-in">حماية تدوم، أمان يُعتمد عليه</p>
+                <p class="text-lg mb-10 fade-in">شركة معتمدة ومتخصصة في جميع أنظمة السلامة ومكافحة الحرائق، نضمن لك بيئة آمنة ومطابقة لأعلى معايير الجودة.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse fade-in">
+                    <a href="#contact" class="bg-white text-red-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-lg transition-colors text-center">
+                        اتصل بنا
+                    </a>
+                    <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center">
+                        <i class="fab fa-whatsapp ml-1"></i> تواصل عبر واتساب
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات -->
+    <section id="services" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">خدماتنا</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- خدمة 1 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-fire-extinguisher text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">أنظمة الإنذار المبكر عن الحريق</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب وصيانة أنظمة الإنذار المبكر عن الحريق بأحدث التقنيات والمواصفات.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 2 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-fire text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">أنظمة إطفاء الحريق</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب وصيانة أنظمة إطفاء الحريق المتكاملة للمباني والمنشآت المختلفة.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 3 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-tools text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">صيانة طفايات الحريق</h3>
+                        <p class="text-gray-600 mb-4">صيانة وتعبئة وفحص طفايات الحريق بجميع أنواعها لضمان جاهزيتها الدائمة.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 4 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-utensils text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">نظام إطفاء المطابخ</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب وصيانة أنظمة الإطفاء المخصصة للمطابخ التجارية والصناعية.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 5 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-wind text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">أنظمة CO2 و FM200</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب أنظمة الإطفاء بالغازات النظيفة CO2 و FM200 للمناطق الحساسة.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 6 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-tachometer-alt text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">مضخات الحريق</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب وصيانة مضخات الحريق بجميع أنواعها وطاقاتها المختلفة.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- زر عرض المزيد من الخدمات -->
+            <div class="text-center mt-12 fade-in">
+                <button id="show-more-services" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                    عرض المزيد من الخدمات
+                </button>
+            </div>
+            
+            <!-- الخدمات الإضافية (مخفية في البداية) -->
+            <div id="more-services" class="hidden mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- خدمة 7 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-fan text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">أنظمة الإطفاء بالفوم</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب وصيانة أنظمة الإطفاء بالرغوة للمناطق الصناعية والتجارية.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 8 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-stairs text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">سلالم الطوارئ</h3>
+                        <p class="text-gray-600 mb-4">توريد وتركيب سلالم الطوارئ وفق المواصفات القياسية والاشتراطات الأمنية.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- خدمة 9 -->
+                <div class="service-card bg-gray-50 rounded-lg shadow-md overflow-hidden fade-in">
+                    <div class="h-48 bg-red-100 flex items-center justify-center">
+                        <i class="fas fa-file-contract text-6xl text-red-600"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">عقود الصيانة السنوية</h3>
+                        <p class="text-gray-600 mb-4">تقديم عقود صيانة سنوية شاملة لأنظمة السلامة ومكافحة الحريق.</p>
+                        <div class="flex space-x-3 space-x-reverse">
+                            <a href="tel:0548041579" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                اتصال
+                            </a>
+                            <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors text-center flex-1">
+                                واتساب
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عن الشركة -->
+    <section id="about" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:ml-8 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">عن شركة لومو نايل</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        نحن في شركة لومو نايل للأمن والسلامة نلتزم بتقديم حلول متكاملة في مجال أنظمة مكافحة الحريق والأمن والسلامة، بخبرة هندسية متخصصة وجودة عالية لضمان سلامة الأرواح والممتلكات.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6">
+                        نقدم خدمات شاملة تشمل التصميم والتركيب والصيانة لأنظمة السلامة المختلفة، مع الالتزام بأعلى معايير الجودة والسلامة المعتمدة محلياً ودولياً.
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-red-600 text-2xl font-bold mb-2">+50</div>
+                            <div class="text-gray-600">مشروع مكتمل</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-red-600 text-2xl font-bold mb-2">100%</div>
+                            <div class="text-gray-600">رضا العملاء</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-red-600 text-2xl font-bold mb-2">24/7</div>
+                            <div class="text-gray-600">دعم فني</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 fade-in">
+                    <div class="bg-red-600 rounded-lg p-8 text-white">
+                        <h3 class="text-2xl font-bold mb-4">لماذا تختار لومو نايل؟</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle mt-1 ml-2"></i>
+                                <span>فريق هندسي متخصص ومعتمد</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle mt-1 ml-2"></i>
+                                <span>استخدام أحدث التقنيات والأنظمة</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle mt-1 ml-2"></i>
+                                <span>التزام تام بمعايير الجودة والسلامة</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle mt-1 ml-2"></i>
+                                <span>خدمة ما بعد البيع وصيانة دورية</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle mt-1 ml-2"></i>
+                                <span>أسعار تنافسية وجودة لا تضاهى</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم شركاء النجاح -->
+    <section id="partners" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">شركاء النجاح</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- شريك 1 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">عمارة سكنية حي السويدي</div>
+                        <div class="text-sm text-gray-600 mt-1">علي بن عمر بن زكريا الهوساوي</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 2 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">عمارة سكنية تجارية حي العوالي</div>
+                        <div class="text-sm text-gray-600 mt-1">محمد عبدالله إبراهيم العتيبي</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 3 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">عمارة سكنية تجارية شقق مفروشة</div>
+                        <div class="text-sm text-gray-600 mt-1">مؤسسة عبدالله محمد الحربي بالخرج</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 4 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مزرعة دجاج البياض</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة مزارع دجاج البياض الخرج</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 5 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مصنع الأخويين للبلاستيك</div>
+                        <div class="text-sm text-gray-600 mt-1">المدينة الصناعية الرياض</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 6 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مستودع أسمدة</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة اليس الزراعية</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 7 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">المستودع المركزي</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة مزارع دجاج البياض</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 8 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مجموعة مقاهي</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة وسم للطاقة</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- زر عرض المزيد من الشركاء -->
+            <div class="text-center mt-12 fade-in">
+                <button id="show-more-partners" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+                    عرض المزيد من الشركاء
+                </button>
+            </div>
+            
+            <!-- الشركاء الإضافيين (مخفية في البداية) -->
+            <div id="more-partners" class="hidden mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- شريك 9 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">محطة وقود</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة نبض للوقود</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 10 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">ورشة نجارة</div>
+                        <div class="text-sm text-gray-600 mt-1">علي الشهراني</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 11 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">عمارة تجارية</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة التمدن الوطنية للمقاولات</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 12 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">شقق مفروشة</div>
+                        <div class="text-sm text-gray-600 mt-1">شقق مكان اللؤلؤ</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 13 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مجمع عمائر سكنية</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة ريادة المعمورة العالمية</div>
+                    </div>
+                </div>
+                
+                <!-- شريك 14 -->
+                <div class="partner-logo bg-gray-100 rounded-lg p-6 flex items-center justify-center h-32 fade-in">
+                    <div class="text-center">
+                        <div class="font-bold text-gray-800">مستودعات وفرازات</div>
+                        <div class="text-sm text-gray-600 mt-1">شركة بيض مكنون للدواجن - الأفلاج</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل -->
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">تواصل معنا</h2>
+            
+            <div class="flex flex-col lg:flex-row">
+                <!-- نموذج التواصل -->
+                <div class="lg:w-1/2 mb-8 lg:mb-0 lg:ml-8 fade-in">
+                    <form id="contact-form" class="bg-white rounded-lg shadow-md p-6">
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 mb-2">الاسم الكامل</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="phone" class="block text-gray-700 mb-2">رقم الجوال</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-gray-700 mb-2">الرسالة</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                            إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- معلومات التواصل -->
+                <div class="lg:w-1/2 fade-in">
+                    <div class="bg-white rounded-lg shadow-md p-6 h-full">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">معلومات التواصل</h3>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-red-600 mt-1 ml-3"></i>
+                                <div>
+                                    <div class="font-bold text-gray-800">العنوان</div>
+                                    <div class="text-gray-600">الرياض، حي الازدهار</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-phone text-red-600 mt-1 ml-3"></i>
+                                <div>
+                                    <div class="font-bold text-gray-800">رقم الهاتف</div>
+                                    <div class="text-gray-600">0548041579</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fab fa-whatsapp text-green-500 mt-1 ml-3"></i>
+                                <div>
+                                    <div class="font-bold text-gray-800">واتساب</div>
+                                    <div class="text-gray-600">0548041579</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-red-600 mt-1 ml-3"></i>
+                                <div>
+                                    <div class="font-bold text-gray-800">البريد الإلكتروني</div>
+                                    <div class="text-gray-600">info@lumo-nile.com</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- خريطة -->
+                        <div class="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-map text-4xl text-gray-500 mb-3"></i>
+                                <div class="text-gray-600">خريطة موقع الشركة في حي الازدهار، الرياض</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg ml-3">
+                            LN
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">لومو نايل</h3>
+                            <p class="text-sm text-gray-400">للأمن والسلامة</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">© 2025 Lumo Nile Safety. جميع الحقوق محفوظة.</p>
+                </div>
+                
+                <div class="flex space-x-6 space-x-reverse mb-6 md:mb-0">
+                    <a href="#home" class="text-gray-400 hover:text-white transition-colors">الرئيسية</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">عن الشركة</a>
+                    <a href="#services" class="text-gray-400 hover:text-white transition-colors">الخدمات</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition-colors">تواصل معنا</a>
+                </div>
+                
+                <div class="flex space-x-4 space-x-reverse">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/966548041579" class="bg-green-500 hover:bg-green-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // تفعيل القائمة المتنقلة
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // إظهار المزيد من الخدمات
+        document.getElementById('show-more-services').addEventListener('click', function() {
+            const moreServices = document.getElementById('more-services');
+            moreServices.classList.toggle('hidden');
+            this.textContent = moreServices.classList.contains('hidden') ? 'عرض المزيد من الخدمات' : 'عرض خدمات أقل';
+        });
+        
+        // إظهار المزيد من الشركاء
+        document.getElementById('show-more-partners').addEventListener('click', function() {
+            const morePartners = document.getElementById('more-partners');
+            morePartners.classList.toggle('hidden');
+            this.textContent = morePartners.classList.contains('hidden') ? 'عرض المزيد من الشركاء' : 'عرض شركاء أقل';
+        });
+        
+        // تأثيرات التمرير
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        // نموذج التواصل
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('شكراً لتواصلكم معنا! سنقوم بالرد عليكم في أقرب وقت ممكن.');
+            this.reset();
+        });
+        
+        // التنقل السلس
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // إغلاق القائمة المتنقلة إذا كانت مفتوحة
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

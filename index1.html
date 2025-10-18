@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>لومو نايل للأمن والسلامة — Lumo Nile Safety</title>
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Play CDN (for quick prototype) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: false,
+        theme: {
+          extend: {
+            fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+            colors: {
+              'brand-red-1': '#C62828',
+              'brand-red-2': '#E53935',
+              'brand-red-3': '#FF6F60'
+            }
+          }
+        }
+      }
+    </script>
+
+  <style>
+      /* RTL adjustments + general styles */
+      html, body { font-family: Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+      /* smooth scroll and nice transitions */
+      html { scroll-behavior: smooth; }
+      .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+      /* small helper for card hover */
+      .card-hover:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+      /* simple marquee for partners (auto scroll) */
+      @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+      .partners-scroll { animation: scroll-left 20s linear infinite; }
+      /* RTL-friendly icon alignment */
+      .icon-left { margin-left: .75rem; }
+      /* small responsive map height */
+      .map-h { height: 280px; }
+      @media(min-width:1024px){ .map-h{ height: 380px; } }
+
+      /* Simple fade-in & slide animations used by JS */
+      .reveal { opacity: 0; transform: translateY(18px); transition: all 700ms cubic-bezier(.2,.9,.2,1); }
+      .reveal.show { opacity: 1; transform: translateY(0); }
+
+      /* ====== Services card improvements ====== */
+      .service-card {
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        height: 100%;
+        transition: transform .25s ease, box-shadow .25s ease;
+      }
+      .service-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+        flex-shrink: 0;
+      }
+      @media(min-width:1024px){ .service-card img { height: 180px; } }
+
+      .service-title { font-weight: 700; color: #111827; }
+      .service-desc { color: #4B5563; font-size: .95rem; }
+
+      .service-actions { margin-top: auto; display:flex; gap:0.5rem; align-items:center; }
+
+      .btn {
+        display:inline-flex; align-items:center; gap:0.5rem;
+        padding: .5rem .9rem; border-radius: .6rem; font-weight:600; font-size:.92rem;
+        transition: transform .12s ease, box-shadow .12s ease;
+      }
+      .btn:active{ transform: translateY(1px); }
+
+      /* Call button - brand outline */
+      .btn-call {
+        background: transparent;
+        color: #C62828;
+        border: 1px solid rgba(198,40,40,0.15);
+        box-shadow: 0 1px 0 rgba(198,40,40,0.04);
+      }
+      .btn-call:hover {
+        background: #C62828; color: #fff; box-shadow: 0 8px 24px rgba(198,40,40,0.12);
+      }
+
+      /* WhatsApp button - green */
+      .btn-ws {
+        background: #25D366; color: #fff; border: 1px solid rgba(20,160,80,0.08);
+        box-shadow: 0 4px 14px rgba(37,211,102,0.12);
+      }
+      .btn-ws:hover {
+        filter: brightness(.96); box-shadow: 0 10px 30px rgba(37,211,102,0.14);
+      }
+
+      /* make card image area visually separated on small screens */
+      .img-wrap { overflow:hidden; border-radius: .75rem; }
+          .service-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 0.75rem;
+        flex-shrink: 0;
+        /* بداية الحالة الافتراضية للـ transform + أداء أفضل للرسوم */
+        transform: scale(1.02);
+        transition: transform .6s cubic-bezier(.2,.9,.2,1), filter .35s ease;
+        will-change: transform;
+      }
+       .service-title { font-weight: 700; color: #111827; }
+      .service-desc { color: #4B5563; font-size: .95rem; }
+      @media(min-width:1024px){ .service-card img { height: 180px; } }
+
+      /* تكبير ناعم وصقل عند مرور الماوس على الكارت */
+      .service-card.card-hover:hover .img-wrap img,
+      .service-card.card-hover:focus-within .img-wrap img {
+        transform: scale(1.12);
+        filter: brightness(1.03);
+      }
+
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800 leading-relaxed">
+
+    <!-- Header -->
+    <header class="fixed w-full z-40 top-0 left-0 bg-white/70 backdrop-blur-md border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-4">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-brand-red-1 to-brand-red-3 flex items-center justify-center shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v6m0 8v6m8-12h-6M4 12H10" />
+                </svg>
+              </div>
+              <div class="text-sm">
+                <div class="font-semibold text-gray-900 text-lg">لومو نايل</div>
+                <div class="text-xs text-gray-500 -mt-0.5">للأمن والسلامة</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Nav -->
+          <nav class="hidden md:flex items-center gap-6">
+            <a href="#" class="text-gray-700 hover:text-brand-red-1">الرئيسية</a>
+            <a href="#about" class="text-gray-700 hover:text-brand-red-1">عن الشركة</a>
+            <a href="#services" class="text-gray-700 hover:text-brand-red-1">الخدمات</a>
+            <a href="#partners" class="text-gray-700 hover:text-brand-red-1">شركاء النجاح</a>
+            <a href="#contact" class="text-gray-700 hover:text-brand-red-1">تواصل معنا</a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <a href="tel:+966548041579" class="hidden sm:inline-block px-4 py-2 rounded-md border border-gray-200 text-sm font-medium">اتصال مباشر</a>
+            <a href="https://wa.me/966548041579" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-brand-red-2 to-brand-red-3 text-white font-semibold shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11 11 0 10-15.6 15.6L3 21l2.9-.8A11 11 0 0020.5 3.5zM12 20a8 8 0 117.07-11.14l-.08.09.03.03A7.96 7.96 0 0112 20z"/></svg>
+              واتساب
+            </a>
+
+            <!-- Mobile menu button -->
+            <button id="mobileBtn" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile nav -->
+      <div id="mobileNav" class="hidden md:hidden border-t border-gray-100">
+        <div class="px-4 py-3 flex flex-col gap-2">
+          <a href="#" class="py-2">الرئيسية</a>
+          <a href="#about" class="py-2">عن الشركة</a>
+          <a href="#services" class="py-2">الخدمات</a>
+          <a href="#partners" class="py-2">شركاء النجاح</a>
+          <a href="#contact" class="py-2">تواصل معنا</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-20">
+
+      <!-- Hero -->
+       <section class="relative overflow-hidden">
+        <div class="absolute inset-0">
+          <!-- استبدلت التدرج والصورة الغامقة بلون واحد فقط -->
+          <div class="w-full h-full bg-brand-red-1"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-36">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div class="text-white reveal">
+              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">لومو نايل للأمن والسلامة – <span class="block text-yellow-50">حماية تدوم، أمان يُعتمد عليه.</span></h1>
+              <!-- ...existing code... -->
+              <p class="mt-4 max-w-xl text-gray-100/90 text-lg">نحن معتمدون ومتخصصون في جميع أنظمة السلامة ومكافحة الحريق – توريد، تركيب، صيانة، واعتمادات هندسية تضمن سلامة الأرواح والممتلكات.</p>
+
+              <div class="mt-6 flex gap-3 flex-wrap">
+                <a href="tel:+966548041579" class="inline-block px-5 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">اتصل بنا</a>
+                <a href="https://wa.me/966548041579" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/30 text-white font-semibold">تواصل عبر واتساب
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M16.67 7.33a2.66 2.66 0 11-5.32 0 2.66 2.66 0 015.32 0zM12 3a9 9 0 11-6.36 15.36L3 21l2.64-2.64A9 9 0 0112 3z"/></svg>
+                </a>
+              </div>
+
+              <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div class="flex items-center gap-3 text-sm">
+                  <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">🔒</div>
+                  <div>
+                    <div class="text-xs text-gray-100/90">اعتمادات هندسية</div>
+                    <div class="text-sm font-semibold">جودة مضمونة</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 text-sm">
+                  <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">⚡</div>
+                  <div>
+                    <div class="text-xs text-gray-100/90">استجابة سريعة</div>
+                    <div class="text-sm font-semibold">خدمة 24/7</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 text-sm">
+                  <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">🛠️</div>
+                  <div>
+                    <div class="text-xs text-gray-100/90">صيانة دورية</div>
+                    <div class="text-sm font-semibold">عقود سنوية</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- image / illustrative panel -->
+            <div class="reveal hidden lg:block">
+              <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                <img src="https://images.unsplash.com/photo-1505904267569-5e8f4d3d56c9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef" alt="معدات اطفاء" class="w-full h-96 object-cover" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+     <!-- Services -->
+      <section id="services" class="max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-2xl font-bold mb-6 reveal">خدماتنا</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- service card template: repeat for each service (each card now has an image, consistent padding and buttons) -->
+
+          <!-- 1 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop" alt="أنظمة إنذار الحريق" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة أنظمة الإنذار المبكر عن الحريق</h3>
+              <p class="service-desc mt-2">تصميم وتركيب أنظمة إنذار متطورة مع دعم صيانة دوري لاكتشاف الحرائق مبكراً.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1526403224749-6e7d7f3f6c37?q=80&w=1200&auto=format&fit=crop" alt="أنظمة إطفاء" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة أنظمة إطفاء الحريق</h3>
+              <p class="service-desc mt-2">أنظمة إطفاء متكاملة (رش، أنابيب، شبكات) مع خطة صيانة منتظمة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581091870625-8f3b7f1d3b3a?q=80&w=1200&auto=format&fit=crop" alt="طفايات حريق" />
+            </div>
+            <div>
+              <h3 class="service-title">صيانة وتعبئة طفايات الحريق</h3>
+              <p class="service-desc mt-2">خدمات تعبئة وفحص طفايات الحريق وفق المواصفات واللوائح المحلية.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1509033460813-8d6f8f0c3ef2?q=80&w=1200&auto=format&fit=crop" alt="نظام إطفاء المطابخ" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء المطابخ</h3>
+              <p class="service-desc mt-2">حلول خاصة لمطابخ المطاعم والمطابخ الصناعية مع أنظمة حساسة وفعّالة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 5 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1593642634367-d91a135587b5?q=80&w=1200&auto=format&fit=crop" alt="CO2 systems" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء CO₂</h3>
+              <p class="service-desc mt-2">تصميم وتركيب أنظمة CO₂ للمخازن والغرف الكهربائية وفق المواصفات.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 6 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581092580495-0f1f6a3f0a6c?q=80&w=1200&auto=format&fit=crop" alt="FM-200" />
+            </div>
+            <div>
+              <h3 class="service-title">نظام إطفاء FM-200</h3>
+              <p class="service-desc mt-2">أنظمة FM-200 المتقدمة للأماكن الحرجة مع حماية سريعة وغير مدمرة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- more services: مضخات، فوم، سلالم، عقود صيانة، اعتماد مخططات، شهادة سلامة، تقرير فني -->
+          <!-- 7 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1200&auto=format&fit=crop" alt="مضخات الحريق" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب وصيانة مضخات الحريق</h3>
+              <p class="service-desc mt-2">مضخات ذات أداء عالي مع نظم تحكم ومراقبة وكفاءة تشغيلية.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 8 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop" alt="أنظمة فوم" />
+            </div>
+            <div>
+              <h3 class="service-title">أنظمة الإطفاء بالفوم</h3>
+              <p class="service-desc mt-2">حلول فوم مخصّصة للمخازن ومحطات الوقود مع مواد إطفاء معتمدة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 9 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1541869153-0b4ff99a8ef9?q=80&w=1200&auto=format&fit=crop" alt="سلالم الطوارئ" />
+            </div>
+            <div>
+              <h3 class="service-title">توريد وتركيب سلالم الطوارئ</h3>
+              <p class="service-desc mt-2">سلالم ومخارج طوارئ مطابقة للوائح وسهلة الاستخدام في حالات الإخلاء.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 10 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1200&auto=format&fit=crop" alt="عقود صيانة" />
+            </div>
+            <div>
+              <h3 class="service-title">عقود صيانة سنوية لأنظمة السلامة</h3>
+              <p class="service-desc mt-2">برامج صيانة دورية مفصّلة مع تقارير وفحوصات معتمدة طوال السنة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 11 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1581094288333-1b6b1d4a0d9a?q=80&w=1200&auto=format&fit=crop" alt="اعتماد مخططات" />
+            </div>
+            <div>
+              <h3 class="service-title">اعتماد مخططات السلامة</h3>
+              <p class="service-desc mt-2">مراجعة واعتماد مخططات السلامة وفق المعايير واشتراطات الدفاع المدني.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+          <!-- 12 -->
+          <article class="service-card card-hover reveal">
+            <div class="img-wrap">
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop" alt="شهادة سلامة" />
+            </div>
+            <div>
+              <h3 class="service-title">استخراج شهادة سلامة & تقرير فني هندسي</h3>
+              <p class="service-desc mt-2">إجراءات استخراج شهادات السلامة وتقديم تقارير هندسية للأنشطة المختلفة.</p>
+            </div>
+            <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+ 
+      <!-- لماذا نحن؟ -->
+      <section id="why-us" class="max-w-7xl mx-auto px-6 py-16 reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <!-- صورة الشركة -->
+          <div class="order-2 lg:order-1">
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+              <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="فريق لومو نايل و معدات السلامة" class="w-full h-[420px] object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.9,.2,1)] hover:scale-105" />
+            </div>
+          </div>
+
+          <!-- نقاط القوة -->
+          <div class="order-1 lg:order-2 text-right">
+            <h2 class="text-3xl font-extrabold mb-3">لماذا تختار لومو نايل؟</h2>
+            <p class="text-gray-600 mb-6">خبرة متخصصة، معدات معتمدة، استجابة سريعة وخدمات صيانة موثوقة — كل هذا بهدف واحد: حماية أرواحك وممتلكاتك.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-brand-red-2 to-brand-red-3 flex items-center justify-center text-white shadow">
+                  <!-- shield icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l8 4v6c0 5-3.8 9.7-8 11-4.2-1.3-8-6-8-11V6l8-4z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold">معايير ومعدات معتمدة</div>
+                  <div class="text-sm text-gray-500">منتجات وممارسات مطابقة للوائح الدفاع المدني.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-brand-red-2 shadow-sm">
+                  <!-- clock icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-red-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 1011 11A11 11 0 0012 1zm1 6h-2v6l5.2 3.1 1-1.6L13 13V7z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold">استجابة سريعة 24/7</div>
+                  <div class="text-sm text-gray-500">فِرق صيانة ودعم جاهزة على مدار الساعة.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-green-500 shadow-sm">
+                  <!-- tools icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 13.35l-2.05-2.05a3.5 3.5 0 10-4.95 4.95l2.05 2.05-1.41 1.41-2.05-2.05A5.5 5.5 0 1120 12.4l2.05 2.05 1.65-1.1z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold">فِرق فنية مُدرّبة</div>
+                  <div class="text-sm text-gray-500">فنيون معتمدون يطبقون أفضل الممارسات في التركيب والصيانة.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-indigo-500 shadow-sm">
+                  <!-- certificate icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 5 5.5.8-4 3.9 1 5.4L12 15.8 6 17.9l1-5.4-4-3.9 5.5-.8L12 2z"/></svg>
+                </div>
+                <div>
+                  <div class="font-semibold">ضمان وجودة</div>
+                  <div class="text-sm text-gray-500">شهادات جودة وضمان على الأعمال والمعدات.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 flex gap-3">
+              <a href="tel:+966548041579" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">
+                اتصل بنا
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 012-2h2.2a1 1 0 01.9.55l1.1 2.2a1 1 0 01-.2 1.08L7.7 9.9a12.1 12.1 0 005.4 5.4l2.07-1.3a1 1 0 011.08-.2l2.2 1.1a1 1 0 01.55.9V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
+              </a>
+
+              <a href="https://wa.me/966548041579" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-[#25D366] text-white font-semibold shadow">
+                واتساب
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11 11 0 10-15.6 15.6L3 21l2.9-.8A11 11 0 0020.5 3.5zM12 20a8 8 0 117.07-11.14l-.08.09.03.03A7.96 7.96 0 0112 20z"/></svg>
+              </a>
+            </div>
+
+            <div class="mt-6 text-sm text-gray-500">
+              <div><strong class="text-gray-700">خدمة مخصصة:</strong> نقوم بزيارة الموقع لتقييم المخاطر واقتراح الحل الأمثل.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Partners -->
+      <section id="partners" class="bg-white/60 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+          <h2 class="text-2xl font-bold mb-6 reveal">شركاء النجاح</h2>
+
+          <div class="overflow-hidden border rounded-xl p-4 bg-gray-50">
+            <div class="flex gap-8 items-center partners-scroll will-change-transform">
+              <!-- repeat partner cards twice for continuous scroll -->
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm hover:scale-105 transition-transform">
+                <div class="text-sm font-semibold">عمارة سكنية حي السويدي</div>
+                <div class="text-xs text-gray-500 mt-1">علي بن عمر بن زكريا الهوساوي</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">عمارة حي العوالي</div>
+                <div class="text-xs text-gray-500 mt-1">محمد عبدالله إبراهيم العتيبي</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">شقق مفروشة – مؤسسة عبدالله الحربي</div>
+                <div class="text-xs text-gray-500 mt-1">الخرج</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">مزرعة دجاج البياض</div>
+                <div class="text-xs text-gray-500 mt-1">شركة مزارع دجاج البياض الخرج</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">مصنع الأخويين للبلاستيك</div>
+                <div class="text-xs text-gray-500 mt-1">المدينة الصناعية الرياض</div>
+              </div>
+
+              <!-- repeat for smooth loop -->
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">مصنع الأخويين للبلاستيك</div>
+                <div class="text-xs text-gray-500 mt-1">المدينة الصناعية الرياض</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">مستودع أسمدة – شركة اليس الزراعية</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">المستودع المركزي – شركة مزارع دجاج البياض</div>
+              </div>
+
+              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                <div class="text-sm font-semibold">مجموعة مقاهي – شركة وسم للطاقة</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div class="reveal">
+            <h2 class="text-2xl font-bold">عن الشركة</h2>
+            <p class="mt-4 text-gray-600">نحن في شركة لومو نايل للأمن والسلامة نلتزم بتقديم حلول متكاملة في مجال أنظمة مكافحة الحريق والأمن والسلامة، بخبرة هندسية متخصصة وجودة عالية لضمان سلامة الأرواح والممتلكات.</p>
+
+            <ul class="mt-4 space-y-2 text-sm text-gray-700">
+              <li>• اعتمادات هندسية وتنفيذ مطابق للمواصفات.</li>
+              <li>• عقود صيانة سنوية وتقارير فنية موثقة.</li>
+              <li>• استجابة طوارئ وفرق ميدانية مدربة.</li>
+            </ul>
+
+            <div class="mt-6 flex gap-3">
+              <a href="#contact" class="px-4 py-2 rounded-md bg-brand-red-2 text-white font-semibold">اطلب عرضًا</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="px-4 py-2 rounded-md border">استشارة سريعة</a>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <div class="rounded-xl overflow-hidden shadow-lg">
+              <img src="https://images.unsplash.com/photo-1529257414771-1960f6ff4b5b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef" alt="فريق العمل" class="w-full h-72 object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="bg-gray-50 py-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          <div class="reveal">
+            <h2 class="text-2xl font-bold">تواصل معنا</h2>
+            <p class="mt-2 text-sm text-gray-600">للاستفسار أو الحصول على عرض سعر، اتصل أو أرسل رسالة عبر النموذج أدناه أو عبر واتساب.</p>
+
+            <form class="mt-6 bg-white p-6 rounded-xl shadow-sm grid gap-4">
+              <label class="text-sm">الاسم</label>
+              <input type="text" placeholder="الاسم" class="p-3 border rounded-md" />
+
+              <label class="text-sm">الجوال</label>
+              <input type="tel" placeholder="05xxxxxxxx" class="p-3 border rounded-md" />
+
+              <label class="text-sm">الرسالة</label>
+              <textarea rows="4" placeholder="اكتب رسالتك" class="p-3 border rounded-md"></textarea>
+
+              <div class="flex gap-3">
+                <button type="submit" class="px-4 py-2 rounded-md bg-brand-red-1 text-white font-semibold">إرسال</button>
+                <a href="https://wa.me/966548041579" target="_blank" class="px-4 py-2 rounded-md border">تواصل عبر واتساب</a>
+              </div>
+            </form>
+
+            <div class="mt-6 text-sm text-gray-600">
+              <div>هاتف / واتساب: <a href="tel:+966548041579" class="text-brand-red-1 font-semibold">0548041579</a></div>
+              <div class="mt-1">الموقع: حي الازدهار، الرياض</div>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <div class="rounded-xl overflow-hidden border shadow-sm">
+              <!-- Google Maps embed for حي الازدهار، الرياض - user can replace with exact coordinates -->
+              <iframe class="w-full map-h" src="https://www.google.com/maps?q=%D8%AD%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B2%D8%AF%D9%87%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="mt-4 flex gap-3">
+              <a href="tel:+966548041579" class="px-4 py-2 rounded-md border">اتصال</a>
+              <a href="https://wa.me/966548041579" class="px-4 py-2 rounded-md bg-green-600 text-white">واتساب</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+ 
+    </main>
+
+    <footer class="bg-gray-900 text-gray-100 mt-12">
+      <div class="max-w-7xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+
+          <!-- Brand / About -->
+          <div class="space-y-4 text-right">
+            <a href="#" class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-brand-red-2 to-brand-red-3 flex items-center justify-center shadow-lg">
+                <!-- small logo svg -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v6m0 8v6m8-12h-6M4 12H10" />
+                </svg>
+              </div>
+              <div>
+                <div class="text-lg font-extrabold">لومو نايل</div>
+                <div class="text-sm text-gray-300 -mt-0.5">للأمن والسلامة</div>
+              </div>
+            </a>
+
+            <p class="text-gray-300 max-w-sm">نقدم حلول متكاملة لأنظمة السلامة ومكافحة الحرائق: توريد، تركيب، صيانة، واعتمادات هندسية تضمن حماية الأرواح والممتلكات.</p>
+
+            <div class="flex items-center gap-3">
+              <a href="tel:+966548041579" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white text-brand-red-1 font-semibold shadow">
+                اتصل الآن
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 012-2h2.2a1 1 0 01.9.55l1.1 2.2a1 1 0 01-.2 1.08L7.7 9.9a12.1 12.1 0 005.4 5.4l2.07-1.3a1 1 0 011.08-.2l2.2 1.1a1 1 0 01.55.9V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
+              </a>
+
+              <a href="https://wa.me/966548041579" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#25D366] text-white font-semibold shadow">
+                واتساب
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5a11 11 0 10-15.6 15.6L3 21l2.9-.8A11 11 0 0020.5 3.5zM12 20a8 8 0 117.07-11.14l-.08.09.03.03A7.96 7.96 0 0112 20z"/></svg>
+              </a>
+            </div>
+
+            <div class="flex items-center gap-3 mt-4">
+              <a href="https://www.instagram.com" target="_blank" aria-label="instagram" class="p-2 rounded-md bg-gray-800 hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-pink-400" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6a4 4 0 100 8 4 4 0 000-8z"/></svg>
+              </a>
+              <a href="#" class="p-2 rounded-md bg-gray-800 hover:bg-gray-700" aria-label="linkedin">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 004.98 8H5A2.5 2.5 0 005 3.5zM3 9h4v12H3zM9 9h3.7v1.7h.1c.5-.9 1.7-1.7 3.4-1.7 3.6 0 4.3 2.4 4.3 5.6V21H18v-5.1c0-1.2 0-2.7-1.7-2.7-1.7 0-2 1.4-2 2.6V21H9z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Services list -->
+          <div class="text-right">
+            <h3 class="text-xl font-semibold mb-4">خدماتنا</h3>
+            <div class="grid grid-cols-2 gap-3 text-gray-300">
+              <a href="#services" class="block hover:text-white">أنظمة إنذار الحريق</a>
+              <a href="#services" class="block hover:text-white">أنظمة إطفاء</a>
+              <a href="#services" class="block hover:text-white">طفايات الحريق</a>
+              <a href="#services" class="block hover:text-white">مضخات الحريق</a>
+              <a href="#services" class="block hover:text-white">أنظمة فوم</a>
+              <a href="#services" class="block hover:text-white">اعتماد مخططات</a>
+              <a href="#services" class="block hover:text-white">عقود صيانة سنوية</a>
+              <a href="#services" class="block hover:text-white">شهادات وتقارير فنية</a>
+            </div>
+          </div>
+
+          <!-- Contact / Address -->
+          <div class="text-right space-y-4">
+            <h3 class="text-xl font-semibold">تواصل معنا</h3>
+            <div class="text-gray-300">
+              <div class="flex items-center justify-between gap-4">
+                <div class="text-sm">الهاتف</div>
+                <div class="font-semibold">+966 54 804 1579</div>
+              </div>
+              <div class="flex items-center justify-between gap-4 mt-2">
+                <div class="text-sm">البريد الإلكتروني</div>
+                <div class="font-semibold">info@lumonile.com</div>
+              </div>
+              <div class="flex items-center justify-between gap-4 mt-2">
+                <div class="text-sm">الموقع</div>
+                <div class="font-semibold">الرياض، المملكة العربية السعودية</div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <a href="tel:+966548041579" class="inline-block w-full text-center px-4 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">اتصل الآن</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="border-t border-gray-800 mt-10 pt-6 text-gray-400 text-sm text-center">
+          © <span id="year"></span> لومو نايل — جميع الحقوق محفوظة.
+        </div>
+      </div>
+
+      <script>
+        // صغير: يعرض السنة الحالية في الفوتر
+        (function(){ var y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear(); })();
+      </script>
+    </footer>
+  </body>
+</html>
+
+
+    <!-- Scripts: mobile toggle, reveal on scroll -->
+    <script>
+      // mobile menu
+      const mobileBtn = document.getElementById('mobileBtn');
+      const mobileNav = document.getElementById('mobileNav');
+      mobileBtn.addEventListener('click',()=> mobileNav.classList.toggle('hidden'));
+
+      // simple reveal on scroll using IntersectionObserver
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){ entry.target.classList.add('show'); observer.unobserve(entry.target); }
+        })
+      },{threshold:0.12});
+      document.querySelectorAll('.reveal').forEach(el=> observer.observe(el));
+
+      // smooth partners scroll pause on hover
+      document.querySelectorAll('.partners-scroll').forEach(scroller=>{
+        scroller.addEventListener('mouseenter',()=> scroller.style.animationPlayState = 'paused');
+        scroller.addEventListener('mouseleave',()=> scroller.style.animationPlayState = 'running');
+      });
+
+      // Form submit (demo) — prevent default and show quick alert
+      document.querySelectorAll('form').forEach(f=>{
+        f.addEventListener('submit', (e)=>{ e.preventDefault(); alert('تم استلام الرسالة. سنتواصل معك قريباً.'); f.reset(); });
+      });
+    </script>
+
+  </body>
+</html>
