@@ -17,9 +17,9 @@
           extend: {
             fontFamily: { cairo: ['Cairo', 'sans-serif'] },
             colors: {
-              'brand-red-1': '#111826',
-              'brand-red-2': '#E53935',
-              'brand-red-3': '#FF6F60'
+              'brand-red-1': '#2e4e21',
+              'brand-red-2': '#2e4e21',
+              'brand-red-3': '#4b8539'
             }
           }
         }
@@ -123,9 +123,64 @@
         transform: scale(1.12);
         filter: brightness(1.03);
       }
+      
 
     </style>
   </head>
+
+    <style>
+      
+
+      /* Improved buttons (replace previous .btn / .btn-call / .btn-ws rules) */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.6rem 1rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+        transition: transform .14s ease, box-shadow .18s ease, opacity .12s ease;
+        will-change: transform;
+      }
+      .btn:active { transform: translateY(1px); }
+      .btn:focus { outline: 3px solid rgba(99,102,241,0.12); outline-offset: 3px; }
+
+      /* layout on small screens: stacked full-width buttons */
+      @media (max-width: 640px) {
+        .service-actions { flex-direction: column; gap: 0.5rem; }
+        .service-actions .btn { width: 100%; }
+      }
+
+      /* Primary call button - warm gradient */
+      .btn-call {
+        background: linear-gradient(90deg, #E53935 0%, #FF6F60 100%);
+        color: #fff;
+        box-shadow: 0 10px 26px rgba(229,57,53,0.16);
+      }
+      .btn-call:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px rgba(229,57,53,0.20);
+      }
+
+      /* WhatsApp button - green solid with subtle glow */
+      .btn-ws {
+        background: linear-gradient(90deg, #25D366 0%, #1DA851 100%);
+        color: #ffffff;
+        box-shadow: 0 10px 26px rgba(37,211,102,0.12);
+      }
+      .btn-ws:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px rgba(37,211,102,0.16);
+      }
+
+      /* small icon sizing inside buttons */
+      .btn svg { width: 1.05rem; height: 1.05rem; flex-shrink: 0; }
+    </style>
 
   <body class="bg-gray-50 text-gray-800 leading-relaxed">
 
@@ -136,10 +191,8 @@
           <div class="flex items-center gap-4">
             <!-- Logo -->
             <a href="#" class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-brand-red-1 to-brand-red-3 flex items-center justify-center shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2v6m0 8v6m8-12h-6M4 12H10" />
-                </svg>
+              <div class="w-12 h-12 rounded-lg p-1 flex items-center justify-center shadow-md">
+               <img src="./asstes/img/لوجو لومونايل.png" alt="">
               </div>
               <div class="text-sm">
                 <div class="font-semibold text-gray-900 text-lg">لومو نايل</div>
@@ -238,12 +291,130 @@
             <!-- image / illustrative panel -->
             <div class="reveal hidden lg:block">
               <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                <img src="https://fire-fighting-basics.com/serv1.avif" alt="معدات اطفاء" class="w-full h-full object-cover" />
+                <img src="./asstes/img/cover.png" alt="معدات اطفاء" class="w-full h-full object-cover" />
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      
+    <!-- About  -->
+<section id="about" class="bg-gray-50/80 max-w-7xl mx-auto px-6 py-16 reveal rounded-xl">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    
+    <!-- المحتوى -->
+    <div class="text-right lg:pr-8">
+      <h2 class="text-3xl font-extrabold mb-2">من نحن — لومو نايل</h2>
+      <p class="text-gray-600 mb-6">
+        نقدم خدمات هندسية متكاملة في مجال السلامة ومكافحة الحريق: تقييم المخاطر، تصميم الأنظمة،
+        تركيب المعدات المعتمدة، وبرامج صيانة دورية تضمن استقرار الأداء وسلامة الأماكن التجارية
+        والصناعية والسكنية.
+      </p>
+
+      <!-- نقاط القوة -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        
+        <!-- أيقونة المعدات والاعتمادات -->
+        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
+          <div
+            class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-red-2 to-brand-red-3 flex items-center justify-center text-white mb-2">
+            <!-- Shield Check -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="font-semibold text-sm">معدات واعتمادات</div>
+          <div class="text-xs text-gray-500">أجهزة ومكونات معتمدة ومطابقة للمواصفات.</div>
+        </div>
+
+        <!-- أيقونة الاستجابة الفورية -->
+        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
+          <div
+            class="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center text-brand-red-2 mb-2">
+            <!-- Zap (صاعقة) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <div class="font-semibold text-sm">استجابة فورية</div>
+          <div class="text-xs text-gray-500">دعم وفرق طوارئ 24/7 لأي موقع.</div>
+        </div>
+
+        <!-- أيقونة التقارير المعتمدة -->
+        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
+          <div
+            class="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center text-indigo-500 mb-2">
+            <!-- File Check -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <path d="M9 15l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="font-semibold text-sm">تقارير معتمدة</div>
+          <div class="text-xs text-gray-500">شهادات وفحوصات وتقارير فنية موثقة.</div>
+        </div>
+
+      </div>
+
+      <!-- عملية العمل -->
+      <div class="space-y-3 mb-6">
+        <div class="flex items-start gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">1</div>
+          <div>
+            <div class="font-semibold text-sm">تقييم الموقع</div>
+            <div class="text-xs text-gray-500">زيارة ميدانية وتحديد مصادر الخطر واشتراطات المكان.</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">2</div>
+          <div>
+            <div class="font-semibold text-sm">تصميم الحل</div>
+            <div class="text-xs text-gray-500">اقتراح نظام مصمم حسب متطلباتك والمواصفات المحلية.</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">3</div>
+          <div>
+            <div class="font-semibold text-sm">تركيب وتشغيل</div>
+            <div class="text-xs text-gray-500">تركيب احترافي، اختبارات قبول وتسليم مع وثائق.</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">4</div>
+          <div>
+            <div class="font-semibold text-sm">صيانة مستمرة</div>
+            <div class="text-xs text-gray-500">عقود صيانة دورية وتقارير فنية لضمان الأداء.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-actions">
+              <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
+              <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
+            </div>
+    </div>
+
+    <!-- الصورة التوضيحية -->
+    <div class="rounded-2xl overflow-hidden shadow-lg">
+      <img src="./asstes/img/profile (3).png" alt="معدات مكافحة الحرائق وفريق العمل"
+        class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.9,.2,1)] hover:scale-105" />
+    </div>
+  </div>
+</section>
+
 
      <!-- Services -->
       <section id="services" class="max-w-7xl mx-auto px-6 py-16">
@@ -435,11 +606,11 @@
 
         </div>
       </section>
-               <!-- About -->
+            
 
     <section id="why-us" class="bg-gray-100/60 max-w-7xl mx-auto px-6 py-16 reveal rounded-xl">
   <div class="flex flex-col lg:flex-row-reverse gap-10 items-center">
-    <!-- الصورة: ستظهر على اليمين في الشاشات الكبيرة -->
+    
     <div class="w-full lg:w-1/2">
       <div class="rounded-2xl overflow-hidden shadow-lg">
         <img
@@ -516,89 +687,113 @@
   </div>
 </section>
 
+ 
       <!-- Partners -->
       <section id="partners" class="bg-white/60 py-12">
         <div class="max-w-7xl mx-auto px-6">
           <h2 class="text-2xl font-bold mb-6 reveal">شركاء النجاح</h2>
 
           <div class="overflow-hidden border rounded-xl p-4 bg-gray-50">
-            <div class="flex gap-8 items-center partners-scroll will-change-transform">
-              <!-- repeat partner cards twice for continuous scroll -->
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm hover:scale-105 transition-transform">
-                <div class="text-sm font-semibold">عمارة سكنية حي السويدي</div>
-                <div class="text-xs text-gray-500 mt-1">علي بن عمر بن زكريا الهوساوي</div>
-              </div>
+            <div class="partners-outer">
+              <div class="partners-track flex items-center gap-8 will-change-transform">
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm hover:scale-105 transition-transform">
+                  <div class="text-sm font-semibold">عمارة سكنية حي السويدي</div>
+                  <div class="text-xs text-gray-500 mt-1">علي بن عمر بن زكريا الهوساوي</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">عمارة حي العوالي</div>
-                <div class="text-xs text-gray-500 mt-1">محمد عبدالله إبراهيم العتيبي</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">عمارة حي العوالي</div>
+                  <div class="text-xs text-gray-500 mt-1">محمد عبدالله إبراهيم العتيبي</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">شقق مفروشة – مؤسسة عبدالله الحربي</div>
-                <div class="text-xs text-gray-500 mt-1">الخرج</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">شقق مفروشة – مؤسسة عبدالله الحربي</div>
+                  <div class="text-xs text-gray-500 mt-1">الخرج</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">مزرعة دجاج البياض</div>
-                <div class="text-xs text-gray-500 mt-1">شركة مزارع دجاج البياض الخرج</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">مزرعة دجاج البياض</div>
+                  <div class="text-xs text-gray-500 mt-1">شركة مزارع دجاج البياض الخرج</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">مصنع الأخويين للبلاستيك</div>
-                <div class="text-xs text-gray-500 mt-1">المدينة الصناعية الرياض</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">مصنع الأخويين للبلاستيك</div>
+                  <div class="text-xs text-gray-500 mt-1">المدينة الصناعية الرياض</div>
+                </div>
 
-              <!-- repeat for smooth loop -->
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">مصنع الأخويين للبلاستيك</div>
-                <div class="text-xs text-gray-500 mt-1">المدينة الصناعية الرياض</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">مستودع أسمدة – شركة اليس الزراعية</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">مستودع أسمدة – شركة اليس الزراعية</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">المستودع المركزي – شركة مزارع دجاج البياض</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">المستودع المركزي – شركة مزارع دجاج البياض</div>
-              </div>
+                <div class="partners-item min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
+                  <div class="text-sm font-semibold">مجموعة مقاهي – شركة وسم للطاقة</div>
+                </div>
 
-              <div class="min-w-[220px] p-3 bg-white rounded-lg shadow-sm">
-                <div class="text-sm font-semibold">مجموعة مقاهي – شركة وسم للطاقة</div>
-              </div>
+                
 
+                
+              </div>
             </div>
           </div>
 
         </div>
       </section>
 
-      <!-- About -->
-      <section id="about" class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div class="reveal">
-            <h2 class="text-2xl font-bold">عن الشركة</h2>
-            <p class="mt-4 text-gray-600">نحن في شركة لومو نايل للأمن والسلامة نلتزم بتقديم حلول متكاملة في مجال أنظمة مكافحة الحريق والأمن والسلامة، بخبرة هندسية متخصصة وجودة عالية لضمان سلامة الأرواح والممتلكات.</p>
+      <style>
+        /* partners marquee styles (مكمل لما عندك) */
+        .partners-outer { width:100%; overflow:hidden; }
+        .partners-track { display:flex; gap:1.5rem; align-items:center; flex-wrap:nowrap; }
+        .partners-item { flex: 0 0 auto; }
 
-            <ul class="mt-4 space-y-2 text-sm text-gray-700">
-              <li>• اعتمادات هندسية وتنفيذ مطابق للمواصفات.</li>
-              <li>• عقود صيانة سنوية وتقارير فنية موثقة.</li>
-              <li>• استجابة طوارئ وفرق ميدانية مدربة.</li>
-            </ul>
+        @keyframes partners-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); } /* يتحرك بمقدار نسخة واحدة (بعد الاستنساخ) */
+        }
+      </style>
 
-            <div class="mt-6 flex gap-3">
-              <a href="#contact" class="px-4 py-2 rounded-md bg-brand-red-2 text-white font-semibold">اطلب عرضًا</a>
-              <a href="https://wa.me/966548041579" target="_blank" class="px-4 py-2 rounded-md border">استشارة سريعة</a>
-            </div>
-          </div>
+      <script>
+        (function(){
+          const track = document.querySelector('.partners-track');
+          if(!track) return;
 
-          <div class="reveal">
-            <div class="rounded-xl overflow-hidden shadow-lg">
-              <img src="https://images.unsplash.com/photo-1529257414771-1960f6ff4b5b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef" alt="فريق العمل" class="w-full h-72 object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
+          // clone content once to allow seamless loop
+          if(!track.dataset.duplicated){
+            const children = Array.from(track.children).map(n => n.cloneNode(true));
+            children.forEach(n => track.appendChild(n));
+            track.dataset.duplicated = 'true';
+          }
+
+          // calculate duration based on distance and speed
+          const speedPxPerSec = 80; // اضبط السرعة هنا (أكبر = أسرع)
+          function applyDuration(){
+            // بعد الاستنساخ يصبح scrollWidth للمسار ضعف المحتوى الأصلي
+            const moveDistance = track.scrollWidth / 2; // المسافة التي نحتاج تحريكها
+            const duration = Math.max(8, Math.round(moveDistance / speedPxPerSec));
+            track.style.animation = `partners-scroll ${duration}s linear infinite`;
+          }
+
+          // apply and reapply on load/resize (layout changes)
+          window.addEventListener('load', applyDuration);
+          let rt;
+          window.addEventListener('resize', ()=> { clearTimeout(rt); rt = setTimeout(applyDuration, 150); });
+
+          // pause on hover/focus
+          track.addEventListener('mouseenter', ()=> track.style.animationPlayState = 'paused');
+          track.addEventListener('mouseleave', ()=> track.style.animationPlayState = 'running');
+          track.addEventListener('focusin', ()=> track.style.animationPlayState = 'paused');
+          track.addEventListener('focusout', ()=> track.style.animationPlayState = 'running');
+
+          // ensure ARIA / accessibility: make track non-focusable but items can be focused if needed
+        })();
+      </script>
+
+
+   
+     
 
       <!-- Contact -->
       <section id="contact" class="bg-gray-50 py-12">
