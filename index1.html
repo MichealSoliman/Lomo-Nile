@@ -1,1166 +1,0 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>لومو نايل للأمن والسلامة — Lumo Nile Safety</title>
-
-    <!-- Cairo Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Tailwind Play CDN (for quick prototype) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: false,
-            theme: {
-                extend: {
-                    fontFamily: { cairo: ['Cairo', 'sans-serif'] },
-                    colors: {
-                        'brand-red-1': '#2e4e21',
-                        'brand-red-2': '#2e4e21',
-                        'brand-red-3': '#4b8539'
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* RTL adjustments + general styles */
-        html,
-        body {
-            font-family: Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-        }
-
-        /* smooth scroll and nice transitions */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(6px);
-        }
-
-        /* small helper for card hover */
-        .card-hover:hover {
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        /* simple marquee for partners (auto scroll) */
-        @keyframes scroll-left {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .partners-scroll {
-            animation: scroll-left 20s linear infinite;
-        }
-
-        /* RTL-friendly icon alignment */
-        .icon-left {
-            margin-left: .75rem;
-        }
-
-        /* small responsive map height */
-        .map-h {
-            height: 280px;
-        }
-
-        @media(min-width:1024px) {
-            .map-h {
-                height: 380px;
-            }
-        }
-
-        /* Simple fade-in & slide animations used by JS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(18px);
-            transition: all 700ms cubic-bezier(.2, .9, .2, 1);
-        }
-
-        .reveal.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ====== Services card improvements ====== */
-        .service-card {
-            padding: 1.25rem;
-            border-radius: 1rem;
-            background: #ffffff;
-            box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            height: 100%;
-            transition: transform .25s ease, box-shadow .25s ease;
-        }
-
-        .service-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        @media(min-width:1024px) {
-            .service-card img {
-                height: 180px;
-            }
-        }
-
-        .service-title {
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .service-desc {
-            color: #4B5563;
-            font-size: .95rem;
-        }
-
-        .service-actions {
-            margin-top: auto;
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: .5rem .9rem;
-            border-radius: .6rem;
-            font-weight: 600;
-            font-size: .92rem;
-            transition: transform .12s ease, box-shadow .12s ease;
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        /* Call button - brand outline */
-        .btn-call {
-            background: transparent;
-            color: #C62828;
-            border: 1px solid rgba(198, 40, 40, 0.15);
-            box-shadow: 0 1px 0 rgba(198, 40, 40, 0.04);
-        }
-
-        .btn-call:hover {
-            background: #C62828;
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(198, 40, 40, 0.12);
-        }
-
-        /* WhatsApp button - green */
-        .btn-ws {
-            background: #25D366;
-            color: #fff;
-            border: 1px solid rgba(20, 160, 80, 0.08);
-            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.12);
-        }
-
-        .btn-ws:hover {
-            filter: brightness(.96);
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.14);
-        }
-
-        /* make card image area visually separated on small screens */
-        .img-wrap {
-            overflow: hidden;
-            border-radius: .75rem;
-        }
-
-        .service-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 0.75rem;
-            flex-shrink: 0;
-            /* بداية الحالة الافتراضية للـ transform + أداء أفضل للرسوم */
-            transform: scale(1.02);
-            transition: transform .6s cubic-bezier(.2, .9, .2, 1), filter .35s ease;
-            will-change: transform;
-        }
-
-        .service-title {
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .service-desc {
-            color: #4B5563;
-            font-size: .95rem;
-        }
-
-        @media(min-width:1024px) {
-            .service-card img {
-                height: 180px;
-            }
-        }
-
-        /* تكبير ناعم وصقل عند مرور الماوس على الكارت */
-        .service-card.card-hover:hover .img-wrap img,
-        .service-card.card-hover:focus-within .img-wrap img {
-            transform: scale(1.12);
-            filter: brightness(1.03);
-        }
-    </style>
-</head>
-
-<style>
-    /* Improved buttons (replace previous .btn / .btn-call / .btn-ws rules) */
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.6rem;
-        padding: 0.6rem 1rem;
-        border-radius: 0.75rem;
-        font-weight: 700;
-        font-size: 0.95rem;
-        text-decoration: none;
-        border: 0;
-        cursor: pointer;
-        transition: transform .14s ease, box-shadow .18s ease, opacity .12s ease;
-        will-change: transform;
-    }
-
-    .btn:active {
-        transform: translateY(1px);
-    }
-
-    .btn:focus {
-        outline: 3px solid rgba(99, 102, 241, 0.12);
-        outline-offset: 3px;
-    }
-
-    /* layout on small screens: stacked full-width buttons */
-    @media (max-width: 640px) {
-        .service-actions {
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .service-actions .btn {
-            width: 100%;
-        }
-    }
-
-    /* Primary call button - warm gradient */
-    .btn-call {
-        background: linear-gradient(90deg, #E53935 0%, #FF6F60 100%);
-        color: #fff;
-        box-shadow: 0 10px 26px rgba(229, 57, 53, 0.16);
-    }
-
-    .btn-call:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 18px 40px rgba(229, 57, 53, 0.20);
-    }
-
-    /* WhatsApp button - green solid with subtle glow */
-    .btn-ws {
-        background: linear-gradient(90deg, #2e4e21 0%, #4b8539 100%);
-        color: #ffffff;
-        box-shadow: 0 10px 26px rgba(37, 211, 102, 0.12);
-    }
-
-    .btn-ws:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 18px 40px rgba(37, 211, 102, 0.16);
-    }
-
-    /* small icon sizing inside buttons */
-    .btn svg {
-        width: 1.05rem;
-        height: 1.05rem;
-        flex-shrink: 0;
-    }
-</style>
-
-<body class="bg-gray-50 text-gray-800 leading-relaxed">
-
-    <!-- Header -->
-    <header class="fixed w-full z-40 top-0 left-0 bg-white/70 backdrop-blur-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-4">
-                    <!-- Logo -->
-                    <a href="#" class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg p-1 flex items-center justify-center shadow-md">
-                            <img src="./asstes/img/لوجو لومونايل.png" alt="">
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-semibold text-gray-900 text-lg">لومو نايل</div>
-                            <div class="text-xs text-gray-500 -mt-0.5">للأمن والسلامة</div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Nav -->
-                <nav class="hidden md:flex items-center gap-6">
-                    <a href="#" class="text-gray-700 hover:text-brand-red-1">الرئيسية</a>
-                    <a href="#about" class="text-gray-700 hover:text-brand-red-1">عن الشركة</a>
-                    <a href="#services" class="text-gray-700 hover:text-brand-red-1">الخدمات</a>
-                    <a href="#partners" class="text-gray-700 hover:text-brand-red-1">شركاء النجاح</a>
-                    
-                </nav>
-
-                <div class="flex items-center gap-3">
-                    <a href="tel:+966548041579"
-                        class="hidden sm:inline-block px-4 py-2 rounded-md border border-gray-200 text-sm font-medium">اتصال
-                        بنا</a>
-                    <a href="https://wa.me/966548041579" target="_blank" rel="noopener"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-brand-red-2 to-brand-red-3 text-white font-semibold shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M20.5 3.5a11 11 0 10-15.6 15.6L3 21l2.9-.8A11 11 0 0020.5 3.5zM12 20a8 8 0 117.07-11.14l-.08.09.03.03A7.96 7.96 0 0112 20z" />
-                        </svg>
-                        واتساب
-                    </a>
-
-                    <!-- Mobile menu button -->
-                    <button id="mobileBtn" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile nav -->
-        <div id="mobileNav" class="hidden md:hidden border-t border-gray-100">
-            <div class="px-4 py-3 flex flex-col gap-2">
-                <a href="#" class="py-2">الرئيسية</a>
-                <a href="#about" class="py-2">عن الشركة</a>
-                <a href="#services" class="py-2">الخدمات</a>
-                <a href="#partners" class="py-2">شركاء النجاح</a>
-                
-            </div>
-        </div>
-    </header>
-
-    <main class="">
-
-        <!-- Hero -->
-        <section class="relative overflow-hidden mt-14">
-            <div class="absolute inset-0">
-                <!-- استبدلت التدرج والصورة الغامقة بلون واحد فقط -->
-                <div class="w-full h-full bg-brand-red-1"></div>
-            </div>
-
-            <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-36">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-                    <div class="text-white reveal">
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">لومو نايل للأمن
-                            والسلامة </h1>
-                        <h3 class="text-lg sm:text-2xl lg:text-3xl font-extrabold leading-tight"> حماية تدوم، أمان
-                            يُعتمد عليه.</h3>
-                        <!-- ...existing code... -->
-                        <p class="mt-4 max-w-xl text-gray-100/90 text-lg">نحن معتمدون ومتخصصون في جميع أنظمة السلامة
-                            ومكافحة الحريق – توريد، تركيب، صيانة، واعتمادات هندسية تضمن سلامة الأرواح والممتلكات.</p>
-
-                        <div class="mt-6 flex gap-3 flex-wrap">
-                            <a href="tel:+966548041579"
-                                class="inline-block px-5 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">اتصل
-                                بنا</a>
-                            <a href="https://wa.me/966548041579" target="_blank"
-                                class="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/30 text-white font-semibold">تواصل
-                                عبر واتساب
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <path
-                                        d="M16.67 7.33a2.66 2.66 0 11-5.32 0 2.66 2.66 0 015.32 0zM12 3a9 9 0 11-6.36 15.36L3 21l2.64-2.64A9 9 0 0112 3z" />
-                                </svg>
-                            </a>
-                        </div>
-
-                        <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            <div class="flex items-center gap-3 text-sm">
-                                <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">🔒</div>
-                                <div>
-                                    <div class="text-xs text-gray-100/90">اعتمادات هندسية</div>
-                                    <div class="text-sm font-semibold">جودة مضمونة</div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3 text-sm">
-                                <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">⚡</div>
-                                <div>
-                                    <div class="text-xs text-gray-100/90">استجابة سريعة</div>
-                                    <div class="text-sm font-semibold">خدمة 24/7</div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3 text-sm">
-                                <div class="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center">🛠️</div>
-                                <div>
-                                    <div class="text-xs text-gray-100/90">صيانة دورية</div>
-                                    <div class="text-sm font-semibold">عقود سنوية</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- image / illustrative panel -->
-                    <div class="reveal hidden lg:block">
-                        <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                            <img src="./asstes/img/cover.png" alt="معدات اطفاء" class="w-full h-full object-cover" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- About  -->
-        <section id="about" class="bg-gray-50/80 max-w-7xl mx-auto px-6 py-16 reveal rounded-xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-
-                <!-- المحتوى -->
-                <div class="text-right lg:pr-8">
-                    <h2 class="text-3xl font-extrabold mb-2">من نحن — لومو نايل</h2>
-                    <p class="text-gray-600 mb-6">
-                        نقدم خدمات هندسية متكاملة في مجال السلامة ومكافحة الحريق: تقييم المخاطر، تصميم الأنظمة،
-                        تركيب المعدات المعتمدة، وبرامج صيانة دورية تضمن استقرار الأداء وسلامة الأماكن التجارية
-                        والصناعية والسكنية.
-                    </p>
-
-                    <!-- نقاط القوة -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-
-                        <!-- أيقونة المعدات والاعتمادات -->
-                        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                            <div
-                                class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-red-2 to-brand-red-3 flex items-center justify-center text-white mb-2">
-                                <!-- Shield Check -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                    <path d="M9 12l2 2 4-4" />
-                                </svg>
-                            </div>
-                            <div class="font-semibold text-sm">معدات واعتمادات</div>
-                            <div class="text-xs text-gray-500">أجهزة ومكونات معتمدة ومطابقة للمواصفات.</div>
-                        </div>
-
-                        <!-- أيقونة الاستجابة الفورية -->
-                        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                            <div
-                                class="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center text-brand-red-2 mb-2">
-                                <!-- Zap (صاعقة) -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                                </svg>
-                            </div>
-                            <div class="font-semibold text-sm">استجابة فورية</div>
-                            <div class="text-xs text-gray-500">دعم وفرق طوارئ 24/7 لأي موقع.</div>
-                        </div>
-
-                        <!-- أيقونة التقارير المعتمدة -->
-                        <div class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
-                            <div
-                                class="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center text-indigo-500 mb-2">
-                                <!-- File Check -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <polyline points="14 2 14 8 20 8" />
-                                    <path d="M9 15l2 2 4-4" />
-                                </svg>
-                            </div>
-                            <div class="font-semibold text-sm">تقارير معتمدة</div>
-                            <div class="text-xs text-gray-500">شهادات وفحوصات وتقارير فنية موثقة.</div>
-                        </div>
-
-                    </div>
-
-                    <!-- عملية العمل -->
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">
-                                1</div>
-                            <div>
-                                <div class="font-semibold text-sm">تقييم الموقع</div>
-                                <div class="text-xs text-gray-500">زيارة ميدانية وتحديد مصادر الخطر واشتراطات المكان.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">
-                                2</div>
-                            <div>
-                                <div class="font-semibold text-sm">تصميم الحل</div>
-                                <div class="text-xs text-gray-500">اقتراح نظام مصمم حسب متطلباتك والمواصفات المحلية.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">
-                                3</div>
-                            <div>
-                                <div class="font-semibold text-sm">تركيب وتشغيل</div>
-                                <div class="text-xs text-gray-500">تركيب احترافي، اختبارات قبول وتسليم مع وثائق.</div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-9 h-9 rounded-full bg-brand-red-2 text-white flex items-center justify-center font-semibold">
-                                4</div>
-                            <div>
-                                <div class="font-semibold text-sm">صيانة مستمرة</div>
-                                <div class="text-xs text-gray-500">عقود صيانة دورية وتقارير فنية لضمان الأداء.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </div>
-
-                <!-- الصورة التوضيحية -->
-                <div class="rounded-2xl overflow-hidden shadow-lg">
-                    <img src="./asstes/img/profile (3).png" alt="معدات مكافحة الحرائق وفريق العمل"
-                        class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.9,.2,1)] hover:scale-105" />
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Services -->
-        <section id="services" class="max-w-7xl mx-auto px-6 py-16">
-            <h2 class="text-2xl font-bold mb-6 reveal">خدماتنا</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- service card template: repeat for each service (each card now has an image, consistent padding and buttons) -->
-
-                <!-- 1 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop"
-                            alt="أنظمة إنذار الحريق" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">توريد وتركيب وصيانة أنظمة الإنذار المبكر عن الحريق</h3>
-                        <p class="service-desc mt-2">تصميم وتركيب أنظمة إنذار متطورة مع دعم صيانة دوري لاكتشاف الحرائق
-                            مبكراً.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 2 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1526403224749-6e7d7f3f6c37?q=80&w=1200&auto=format&fit=crop"
-                            alt="أنظمة إطفاء" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">توريد وتركيب وصيانة أنظمة إطفاء الحريق</h3>
-                        <p class="service-desc mt-2">أنظمة إطفاء متكاملة (رش، أنابيب، شبكات) مع خطة صيانة منتظمة.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 3 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1581091870625-8f3b7f1d3b3a?q=80&w=1200&auto=format&fit=crop"
-                            alt="طفايات حريق" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">صيانة وتعبئة طفايات الحريق</h3>
-                        <p class="service-desc mt-2">خدمات تعبئة وفحص طفايات الحريق وفق المواصفات واللوائح المحلية.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 4 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1509033460813-8d6f8f0c3ef2?q=80&w=1200&auto=format&fit=crop"
-                            alt="نظام إطفاء المطابخ" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">نظام إطفاء المطابخ</h3>
-                        <p class="service-desc mt-2">حلول خاصة لمطابخ المطاعم والمطابخ الصناعية مع أنظمة حساسة وفعّالة.
-                        </p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 5 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1593642634367-d91a135587b5?q=80&w=1200&auto=format&fit=crop"
-                            alt="CO2 systems" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">نظام إطفاء CO₂</h3>
-                        <p class="service-desc mt-2">تصميم وتركيب أنظمة CO₂ للمخازن والغرف الكهربائية وفق المواصفات.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 6 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1581092580495-0f1f6a3f0a6c?q=80&w=1200&auto=format&fit=crop"
-                            alt="FM-200" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">نظام إطفاء FM-200</h3>
-                        <p class="service-desc mt-2">أنظمة FM-200 المتقدمة للأماكن الحرجة مع حماية سريعة وغير مدمرة.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- more services: مضخات، فوم، سلالم، عقود صيانة، اعتماد مخططات، شهادة سلامة، تقرير فني -->
-                <!-- 7 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1200&auto=format&fit=crop"
-                            alt="مضخات الحريق" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">توريد وتركيب وصيانة مضخات الحريق</h3>
-                        <p class="service-desc mt-2">مضخات ذات أداء عالي مع نظم تحكم ومراقبة وكفاءة تشغيلية.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 8 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop"
-                            alt="أنظمة فوم" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">أنظمة الإطفاء بالفوم</h3>
-                        <p class="service-desc mt-2">حلول فوم مخصّصة للمخازن ومحطات الوقود مع مواد إطفاء معتمدة.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 9 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1541869153-0b4ff99a8ef9?q=80&w=1200&auto=format&fit=crop"
-                            alt="سلالم الطوارئ" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">توريد وتركيب سلالم الطوارئ</h3>
-                        <p class="service-desc mt-2">سلالم ومخارج طوارئ مطابقة للوائح وسهلة الاستخدام في حالات الإخلاء.
-                        </p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 10 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1200&auto=format&fit=crop"
-                            alt="عقود صيانة" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">عقود صيانة سنوية لأنظمة السلامة</h3>
-                        <p class="service-desc mt-2">برامج صيانة دورية مفصّلة مع تقارير وفحوصات معتمدة طوال السنة.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 11 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1581094288333-1b6b1d4a0d9a?q=80&w=1200&auto=format&fit=crop"
-                            alt="اعتماد مخططات" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">اعتماد مخططات السلامة</h3>
-                        <p class="service-desc mt-2">مراجعة واعتماد مخططات السلامة وفق المعايير واشتراطات الدفاع المدني.
-                        </p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-                <!-- 12 -->
-                <article class="service-card card-hover reveal">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop"
-                            alt="شهادة سلامة" />
-                    </div>
-                    <div>
-                        <h3 class="service-title">استخراج شهادة سلامة & تقرير فني هندسي</h3>
-                        <p class="service-desc mt-2">إجراءات استخراج شهادات السلامة وتقديم تقارير هندسية للأنشطة
-                            المختلفة.</p>
-                    </div>
-                    <div class="service-actions">
-                        <a href="tel:+966548041579" class="btn btn-call">اتصال</a>
-                        <a href="https://wa.me/966548041579" target="_blank" class="btn btn-ws">واتساب</a>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-
-
-       <section id="why-us" class="bg-gray-100/60 max-w-7xl mx-auto px-6 py-16 reveal rounded-xl">
-  <div class="flex flex-col lg:flex-row-reverse gap-10 items-center">
-
-    <div class="w-full lg:w-1/2">
-      <div class="rounded-2xl overflow-hidden shadow-lg">
-        <img src="./asstes//img/cover.png"
-          alt="فريق لومو نايل و معدات السلامة"
-          class="w-full h-[420px] object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.9,.2,1)] hover:scale-105" />
-      </div>
-    </div>
-
-    <!-- المحتوى -->
-    <div class="w-full lg:w-1/2 text-right">
-      <h2 class="text-3xl font-extrabold mb-3">لماذا تختار لومو نايل؟</h2>
-      <p class="text-gray-600 mb-6">
-        خبرة متخصصة، معدات معتمدة، استجابة سريعة وخدمات صيانة موثوقة — كل هذا بهدف واحد: حماية أرواحك وممتلكاتك.
-      </p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- ميزة 1 -->
-        <div class="flex items-start gap-3">
-          <div
-            class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-brand-red-2 to-brand-red-3 flex items-center justify-center text-white shadow">
-            <i class="fa-solid fa-shield-halved text-xl"></i>
-          </div>
-          <div>
-            <div class="font-semibold">معايير ومعدات معتمدة</div>
-            <div class="text-sm text-gray-500">منتجات وممارسات مطابقة للوائح الدفاع المدني.</div>
-          </div>
-        </div>
-
-        <!-- ميزة 2 -->
-        <div class="flex items-start gap-3">
-          <div
-            class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-brand-red-2 shadow-sm">
-            <i class="fa-solid fa-headset text-2xl text-brand-red-3"></i>
-          </div>
-          <div>
-            <div class="font-semibold">استجابة سريعة 24/7</div>
-            <div class="text-sm text-gray-500">فِرق صيانة ودعم جاهزة على مدار الساعة.</div>
-          </div>
-        </div>
-
-        <!-- ميزة 3 -->
-        <div class="flex items-start gap-3">
-          <div
-            class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-green-500 shadow-sm">
-            <i class="fa-solid fa-people-group text-2xl"></i>
-          </div>
-          <div>
-            <div class="font-semibold">فِرق فنية مُدرّبة</div>
-            <div class="text-sm text-gray-500">فنيون معتمدون يطبقون أفضل الممارسات في التركيب والصيانة.</div>
-          </div>
-        </div>
-
-        <!-- ميزة 4 -->
-        <div class="flex items-start gap-3">
-          <div
-            class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-indigo-500 shadow-sm">
-            <i class="fa-solid fa-award text-2xl"></i>
-          </div>
-          <div>
-            <div class="font-semibold">ضمان وجودة</div>
-            <div class="text-sm text-gray-500">شهادات جودة وضمان على الأعمال والمعدات.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- الأزرار -->
-      <div class="mt-6 flex gap-3">
-        <a href="tel:+966548041579"
-          class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">
-          اتصل بنا
-          <i class="fa-solid fa-phone text-brand-red-2"></i>
-        </a>
-
-        <a href="https://wa.me/966548041579" target="_blank" rel="noopener"
-          class="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-gradient-to-r from-brand-red-2 to-brand-red-3 text-white font-semibold shadow">
-          واتساب
-          <i class="fa-brands fa-whatsapp text-white"></i>
-        </a>
-      </div>
-
-      <div class="mt-6 text-sm text-gray-500">
-        <div><strong class="text-gray-700">خدمة مخصصة:</strong> نقوم بزيارة الموقع لتقييم المخاطر واقتراح الحل الأمثل.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-     
-
-
-
-
-
-<!-- Success Partners Section -->
-<section class="bg-gray-50 py-20">
-  <div class="max-w-7xl mx-auto px-6">
-    <!-- العنوان -->
-    <div class="text-center mb-14">
-      <h2 class="text-4xl font-extrabold text-brand-red-1 mb-3">شركاء النجاح</h2>
-      <p class="text-gray-600 text-lg">نفخر بثقة عملائنا وشركائنا في مختلف القطاعات والمجالات</p>
-    </div>
-
-    <!-- الشبكة -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-      <!-- عنصر -->
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏢
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">عمارة سكنية حي السويدي</h3>
-        <p class="text-sm text-gray-500">مشروع سكني</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏘️
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">عمارة سكنية تجارية حي العوالي</h3>
-        <p class="text-sm text-gray-500">مشروع سكني تجاري</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏠
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">مؤسسة عبدالله محمد الحربي</h3>
-        <p class="text-sm text-gray-500">شقق مفروشة - الخرج</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🐔
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة مزارع دجاج البياض</h3>
-        <p class="text-sm text-gray-500">مزرعة - الخرج</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏭
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">مصنع الأخويين للبلاستيك</h3>
-        <p class="text-sm text-gray-500">المدينة الصناعية - الرياض</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🌾
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة اليس الزراعية</h3>
-        <p class="text-sm text-gray-500">مستودع أسمدة</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏢
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة مزارع دجاج البياض</h3>
-        <p class="text-sm text-gray-500">المستودع المركزي</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          ⚙️
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة وسم للطاقة</h3>
-        <p class="text-sm text-gray-500">مجموعة مقاهي</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          ⛽
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة نبض للوقود</h3>
-        <p class="text-sm text-gray-500">محطة وقود</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🧱
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة التمدن الوطنية للمقاولات</h3>
-        <p class="text-sm text-gray-500">عمارة تجارية</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🏨
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شقق مكان اللؤلؤ</h3>
-        <p class="text-sm text-gray-500">شقق مفروشة</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🧯
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة ريادة المعمورة العالمية</h3>
-        <p class="text-sm text-gray-500">مجمع عمائر سكنية</p>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col justify-center items-center text-center border border-gray-100">
-        <div class="w-14 h-14 bg-gradient-to-r from-brand-red-2 to-brand-red-3 rounded-full flex items-center justify-center text-white text-lg font-bold shadow" >
-          🥚
-        </div>
-        <h3 class="mt-4 text-gray-800 font-semibold text-lg">شركة بيض مكنون للدواجن</h3>
-        <p class="text-sm text-gray-500">مجموعة مستودعات وفرازات - الأفلاج</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-    </main>
-
-    <!-- Footer -->
-
-    </main>
-
-    <footer class="bg-gray-900 text-gray-100 mt-12">
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-
-              <!-- Brand / About -->
-<div class="space-y-4 text-right">
-  <a href="#" class="flex items-center gap-4">
-    <div
-      class="w-14 h-14 rounded-lg p-1 flex bg-white items-center justify-center shadow-lg">
-      <!-- small logo svg -->
-    <img src="./asstes/img/لوجو لومونايل.png" alt="">
-    </div>
-    <div>
-      <div class="text-lg font-extrabold">لومو نايل</div>
-      <div class="text-sm text-gray-300 -mt-0.5">للأمن والسلامة</div>
-    </div>
-  </a>
-
-  <p class="text-gray-300 max-w-sm">
-    نقدم حلول متكاملة لأنظمة السلامة ومكافحة الحرائق: توريد، تركيب، صيانة، واعتمادات هندسية تضمن حماية الأرواح والممتلكات.
-  </p>
-
-  <div class="flex items-center gap-3">
-    <a href="tel:+966548041579"
-      class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white text-brand-red-1 font-semibold shadow hover:opacity-90 transition">
-      اتصل الآن
-      <i class="fa-solid fa-phone text-brand-red-1"></i>
-    </a>
-
-    <a href="https://wa.me/966548041579" target="_blank" rel="noopener"
-      class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-brand-red-2 to-brand-red-3 text-white font-semibold shadow hover:opacity-90 transition">
-      واتساب
-      <i class="fa-brands fa-whatsapp"></i>
-    </a>
-  </div>
-
-  <!-- Social Media Icons -->
-  <div class="flex items-center justify-start gap-2 mt-3 text-lg">
-    <a href="https://www.instagram.com/lumo_nile" target="_blank" aria-label="Instagram"
-      class="w-9 h-9 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-600 to-pink-400 text-white hover:opacity-90 transition shadow-md">
-      <i class="fa-brands fa-instagram"></i>
-    </a>
-
-   
-
-    <a href="https://www.facebook.com/lumo.nile/" target="_blank" aria-label="Facebook"
-      class="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 transition shadow-md">
-      <i class="fa-brands fa-facebook-f"></i>
-    </a>
-
-    <a href="https://x.com/lumo_nile" target="_blank" aria-label="X"
-      class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-900 text-white hover:bg-black transition shadow-md">
-      <i class="fa-brands fa-x-twitter"></i>
-    </a>
-
-    <!-- Snapchat -->
-<a href="https://www.snapchat.com/add/lumo_nile?share_id=S9TcdSI0oK4&locale=ar-EG" target="_blank" aria-label="Snapchat"
-  class="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-400 text-black hover:bg-yellow-500 transition shadow-md">
-  <i class="fa-brands fa-snapchat-ghost"></i>
-</a>
-
-<!-- TikTok -->
-<a href="https://www.tiktok.com/@lumo_nile?lang=ar" target="_blank" aria-label="TikTok"
-  class="w-9 h-9 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition shadow-md">
-  <i class="fa-brands fa-tiktok"></i>
-</a>
-
-   
-  </div>
-</div>
-
-
-                <!-- Services list -->
-                <div class="text-right">
-                    <h3 class="text-xl font-semibold mb-4">خدماتنا</h3>
-                    <div class="grid grid-cols-2 gap-3 text-gray-300">
-                        <a href="#services" class="block hover:text-white">أنظمة إنذار الحريق</a>
-                        <a href="#services" class="block hover:text-white">أنظمة إطفاء</a>
-                        <a href="#services" class="block hover:text-white">طفايات الحريق</a>
-                        <a href="#services" class="block hover:text-white">مضخات الحريق</a>
-                        <a href="#services" class="block hover:text-white">أنظمة فوم</a>
-                        <a href="#services" class="block hover:text-white">اعتماد مخططات</a>
-                        <a href="#services" class="block hover:text-white">عقود صيانة سنوية</a>
-                        <a href="#services" class="block hover:text-white">شهادات وتقارير فنية</a>
-                    </div>
-                </div>
-
-                <!-- Contact / Address -->
-                <div class="text-right space-y-4">
-                    <h3 class="text-xl font-semibold">تواصل معنا</h3>
-                    <div class="text-gray-300">
-                        <div class="flex items-center justify-between gap-4">
-                            <div class="text-sm">الهاتف</div>
-                            <div class="font-semibold">+966 54 804 1579</div>
-                        </div>
-                        <div class="flex items-center justify-between gap-4 mt-2">
-                            <div class="text-sm">البريد الإلكتروني</div>
-                            <div class="font-semibold">info@lumonile.com</div>
-                        </div>
-                        <div class="flex items-center justify-between gap-4 mt-2">
-                            <div class="text-sm">الموقع</div>
-                            <div class="font-semibold">الرياض، المملكة العربية السعودية</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-2">
-                        <a href="tel:+966548041579"
-                            class="inline-block w-full text-center px-4 py-3 rounded-md bg-white text-brand-red-1 font-semibold shadow">اتصل
-                            الآن</a>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="border-t border-gray-800 mt-10 pt-6 text-gray-400 text-sm text-center">
-                © <span id="year"></span> لومو نايل — جميع الحقوق محفوظة.
-            </div>
-        </div>
-
-        <script>
-            // صغير: يعرض السنة الحالية في الفوتر
-            (function () { var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); })();
-        </script>
-    </footer>
-</body>
-
-</html>
-
-
-<!-- Scripts: mobile toggle, reveal on scroll -->
-<script>
-    // mobile menu
-    const mobileBtn = document.getElementById('mobileBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    mobileBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
-
-    // simple reveal on scroll using IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { entry.target.classList.add('show'); observer.unobserve(entry.target); }
-        })
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // smooth partners scroll pause on hover
-    document.querySelectorAll('.partners-scroll').forEach(scroller => {
-        scroller.addEventListener('mouseenter', () => scroller.style.animationPlayState = 'paused');
-        scroller.addEventListener('mouseleave', () => scroller.style.animationPlayState = 'running');
-    });
-
-    // Form submit (demo) — prevent default and show quick alert
-    document.querySelectorAll('form').forEach(f => {
-        f.addEventListener('submit', (e) => { e.preventDefault(); alert('تم استلام الرسالة. سنتواصل معك قريباً.'); f.reset(); });
-    });
-</script>
-
-</body>
-
-</html>
